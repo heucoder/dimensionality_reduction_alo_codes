@@ -4,24 +4,27 @@
 
 ### 现已实现:
 
-1.PCA/KPCA
-https://blog.csdn.net/u013719780/article/details/78352262
-https://blog.csdn.net/weixin_40604987/article/details/79632888
+1. PCA/KPCA
 
-2.LDA
-https://blog.csdn.net/ChenVast/article/details/79227945
-https://www.cnblogs.com/pinard/p/6244265.html
+- https://blog.csdn.net/u013719780/article/details/78352262
+- https://blog.csdn.net/weixin_40604987/article/details/79632888
 
-3.MDS
-https://blog.csdn.net/zhangweiguo_717/article/details/69663452?locationNum=10&fps=1
+2. LDA
+- https://blog.csdn.net/ChenVast/article/details/79227945
+- https://www.cnblogs.com/pinard/p/6244265.html
 
-4.ISOMAP
-https://blog.csdn.net/zhangweiguo_717/article/details/69802312
-http://www-clmc.usc.edu/publications/T/tenenbaum-Science2000.pdf
+3. MDS
+- https://blog.csdn.net/zhangweiguo_717/article/details/69663452?locationNum=10&fps=1
 
-5.LLE
-https://blog.csdn.net/scott198510/article/details/76099630
-https://www.cnblogs.com/pinard/p/6266408.html?utm_source=itdadao&utm_medium=referral
+4. ISOMAP
+- https://blog.csdn.net/zhangweiguo_717/article/details/69802312
+- http://www-clmc.usc.edu/publications/T/tenenbaum-Science2000.pdf
 
-6.TSNE
-http://bindog.github.io/blog/2018/07/31/t-sne-tips/
+5. LLE
+- https://blog.csdn.net/scott198510/article/details/76099630
+- https://www.cnblogs.com/pinard/p/6266408.html?utm_source=itdadao&utm_medium=referral
+
+6. TSNE
+- http://bindog.github.io/blog/2018/07/31/t-sne-tips/
+
+7. AutoEncoder
