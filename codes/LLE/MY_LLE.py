@@ -75,17 +75,22 @@ def MY_LLE(data, n_dims = 2, n_neighbors = 10):
     return Y
 
 if __name__ == '__main__':
-    X, t = make_s_curve(n_samples = 500,
+    X, Y = make_s_curve(n_samples = 500,
                            noise = 0.1,
                            random_state = 42)
 
-    Y = MY_LLE(X, n_neighbors = 30)
-    plt.scatter(Y[:, 0], Y[:, 1], c = t)
-    plt.show()
+    data_1 = MY_LLE(X, n_neighbors = 30)
 
-    #
-    # LLE = LocallyLinearEmbedding(n_neighbors = 20, n_components = 2)
-    # Y1 = LLE.fit_transform(X)
-    # print(np.dot(Y1.T, Y1))
-    # plt.scatter(Y1[:, 0], Y1[:, 1], c = t)
-    # plt.show()
+    data_2 = LocallyLinearEmbedding(n_components=2, n_neighbors=30).fit_transform(X)
+
+
+    plt.figure(figsize=(8,4))
+    plt.subplot(121)
+    plt.title("my_LLE")
+    plt.scatter(data_1[:, 0], data_1[:, 1], c = Y)
+
+    plt.subplot(122)
+    plt.title("sklearn_LLE")
+    plt.scatter(data_2[:, 0], data_2[:, 1], c = Y)
+    plt.savefig("LLE.png")
+    plt.show()

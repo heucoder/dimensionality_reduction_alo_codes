@@ -65,12 +65,21 @@ def scatter_3d(X, y):
     plt.show()
 
 if __name__ == '__main__':
-    X, t = make_s_curve(n_samples = 500,
+    X, Y = make_s_curve(n_samples = 500,
                            noise = 0.1,
                            random_state = 42)
-    # scatter_3d(X, t)
-    data_2d = my_Isomap(X, 2, 10)
-    # iso = Isomap(n_components=2, n_neighbors=10)
-    # data_2d = iso.fit_transform(X)
-    plt.scatter(data_2d[:, 0], data_2d[:, 1], c = t)
+
+    data_1 = my_Isomap(X, 2, 10)
+
+    data_2 = Isomap(n_neighbors = 10, n_components = 2).fit_transform(X)
+
+    plt.figure(figsize=(8,4))
+    plt.subplot(121)
+    plt.title("my_Isomap")
+    plt.scatter(data_1[:, 0], data_1[:, 1], c = Y)
+
+    plt.subplot(122)
+    plt.title("sklearn_Isomap")
+    plt.scatter(data_2[:, 0], data_2[:, 1], c = Y)
+    plt.savefig("Isomap.png")
     plt.show()

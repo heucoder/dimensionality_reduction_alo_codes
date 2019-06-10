@@ -25,11 +25,7 @@ def cal_pairwise_dist(x):
     #返回任意两个点之间距离的平方
     return dist
 
-def tensor_mds(n_com = 2):
-    data = load_digits().data
-    std = StandardScaler()
-    data = std.fit_transform(data)
-    target = load_digits().target
+def tensor_mds(data, n_com = 2, learning_rate = 1):
     n, feature = data.shape
     tf.reset_default_graph()
     X_dist = cal_pairwise_dist(data)
@@ -47,7 +43,7 @@ def tensor_mds(n_com = 2):
 
     loss = tf.log(tf.reduce_sum(tf.square((X - Y_dist))))
 
-    optimizer = tf.train.RMSPropOptimizer(learning_rate = 1)
+    optimizer = tf.train.AdamOptimizer(learning_rate = learning_rate)
     training_op = optimizer.minimize(loss)
     init = tf.global_variables_initializer()
 
@@ -62,10 +58,25 @@ def tensor_mds(n_com = 2):
                 print("loss: ", loss_val)
 
         data_2d = sess.run(Y)
-
-    plt.scatter(data_2d[:, 0], data_2d[:, 1], c = target)
-    plt.show()
+    return data_2d
 
 if __name__ == '__main__':
-    # sklearn_mds()
-    tensor_mds()
+    iris = load_iris()
+    data = iris.data
+    Y = iris.target
+    data_1 = tensor_mds(data, learning_rate=0.01)
+
+
+    data_2 = MDS(n_components=2).fit_transform(data)
+
+    plt.figure(figsize=(8, 4))
+    plt.subplot(121)
+    plt.title("my_MDS")
+    plt.scatter(data_1[:, 0], data_1[:, 1], c=Y)
+
+    plt.subplot(122)
+    plt.title("sklearn_MDS")
+    plt.scatter(data_2[:, 0], data_2[:, 1], c=Y)
+    plt.savefig("MDS_2.png")
+    plt.show()
+

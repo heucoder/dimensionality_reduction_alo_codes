@@ -1,5 +1,6 @@
 import numpy as np
 from sklearn.datasets import load_iris
+from sklearn.manifold import MDS
 import matplotlib.pyplot as plt
 
 def cal_pairwise_dist(x):
@@ -36,8 +37,18 @@ def my_mds(data, n_dims):
 if __name__ == '__main__':
     iris = load_iris()
     data = iris.data
-    y = iris.target
-    d = my_mds(data, 2)
-    print(d.shape)
-    plt.scatter(d[:, 0], d[:, 1], c = y)
+    Y = iris.target
+    data_1 = my_mds(data, 2)
+
+    data_2 = MDS(n_components=2).fit_transform(data)
+
+    plt.figure(figsize=(8, 4))
+    plt.subplot(121)
+    plt.title("my_MDS")
+    plt.scatter(data_1[:, 0], data_1[:, 1], c=Y)
+
+    plt.subplot(122)
+    plt.title("sklearn_MDS")
+    plt.scatter(data_2[:, 0], data_2[:, 1], c=Y)
+    plt.savefig("MDS_1.png")
     plt.show()

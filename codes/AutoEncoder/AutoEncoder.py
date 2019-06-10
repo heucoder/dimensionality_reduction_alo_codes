@@ -76,12 +76,17 @@ if __name__ == '__main__':
     iris = load_digits()
     X = iris.data
     Y = iris.target
-    X_2d = AutoEncoder(X, [2], learning_rate = 0.2,  n_epochs = 1000)
-    plt.subplot(211)
-    plt.scatter(X_2d[:, 0], X_2d[:, 1] , c = Y)
+    data_1 = AutoEncoder(X, [2], learning_rate = 0.2,  n_epochs = 1000)
 
-    pca = PCA(n_components=2)
-    X_2d1 = pca.fit_transform(X)
-    plt.subplot(212)
-    plt.scatter(X_2d1[:, 0], X_2d1[:, 1], c=Y)
+    data_2 = PCA(n_components=2).fit_transform(X)
+
+    plt.figure(figsize=(8,4))
+    plt.subplot(121)
+    plt.title("my_AutoEncoder")
+    plt.scatter(data_1[:, 0], data_1[:, 1], c = Y)
+
+    plt.subplot(122)
+    plt.title("sklearn_PCA")
+    plt.scatter(data_2[:, 0], data_2[:, 1], c = Y)
+    plt.savefig("AutoEncoder.png")
     plt.show()

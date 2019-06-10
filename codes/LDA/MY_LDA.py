@@ -45,6 +45,18 @@ if __name__ == '__main__':
     iris = load_iris()
     X = iris.data
     Y = iris.target
-    data_2d = lda(X, Y, 2)
-    plt.scatter(x = data_2d[:, 0], y = data_2d[:, 1], c = Y)
+    data_1 = lda(X, Y, 2)
+
+    data_2 = LinearDiscriminantAnalysis(n_components=2).fit_transform(X, Y)
+
+
+    plt.figure(figsize=(8,4))
+    plt.subplot(121)
+    plt.title("my_LDA")
+    plt.scatter(data_1[:, 0], data_1[:, 1], c = Y)
+
+    plt.subplot(122)
+    plt.title("sklearn_LDA")
+    plt.scatter(data_2[:, 0], data_2[:, 1], c = Y)
+    plt.savefig("LDA.png")
     plt.show()

@@ -1,7 +1,7 @@
 #coding:utf-8
 
 import numpy as np
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_digits
 import matplotlib.pyplot as plt
 import time
 
@@ -167,9 +167,9 @@ def tsne(x, no_dims=2, perplexity=30.0, max_iter=1000):
     return y
 
 if __name__ == "__main__":
-    iris = load_iris()
-    X = iris.data
-    Y = iris.target
+    digits = load_digits()
+    X = digits.data
+    Y = digits.target
 
     data_2d = tsne(X, 2)
     plt.scatter(data_2d[:, 0], data_2d[:, 1], c = Y)
