@@ -18,6 +18,30 @@ def my_pca(data, n_dim):
     data_ndim = np.dot(data, picked_eig_vector)
     return data_ndim
 
+
+# data 降维的矩阵(n_samples, n_features)
+# n_dim 目标维度
+# fit n_features >> n_samples, reduce cal
+def my_highdim_pca(data, n_dim):
+    N = data.shape[0]
+    data = data - np.mean(data, axis = 0, keepdims = True)
+
+    Ncov = np.dot(data, data.T)
+
+    Neig_values, Neig_vector = np.linalg.eig(Ncov)
+    indexs_ = np.argsort(-Neig_values)[:n_dim]
+    Npicked_eig_values = Neig_values[indexs_]
+    print(Npicked_eig_values)
+    Npicked_eig_vector = Neig_vector[:, indexs_]
+    print(Npicked_eig_vector.shape)
+
+    picked_eig_vector = np.dot(data.T, Npicked_eig_vector)
+    picked_eig_vector = picked_eig_vector/(N*Npicked_eig_values.reshape(-1, n_dim))**0.5
+    print(picked_eig_vector.shape)
+
+    data_ndim = np.dot(data, picked_eig_vector)
+    return data_ndim
+
 if __name__ == "__main__":
     data = load_iris()
     X = data.data
