@@ -28,3 +28,6 @@
 - http://bindog.github.io/blog/2018/07/31/t-sne-tips/
 
 7. AutoEncoder
+
+8. FastICA
+- https://blog.csdn.net/lizhe_dashuju/article/details/50263339
