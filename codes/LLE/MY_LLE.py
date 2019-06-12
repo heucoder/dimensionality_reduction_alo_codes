@@ -47,7 +47,7 @@ def MY_LLE(data, n_dims = 2, n_neighbors = 10):
         Ni = data[N[i]].T
 
         Si = np.dot((Xi-Ni).T, (Xi-Ni))
-
+        # magic and why????
         Si = Si+np.eye(n_neighbors)*tol*np.trace(Si)
 
         Si_inv = np.linalg.pinv(Si)

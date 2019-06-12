@@ -39,3 +39,9 @@
 9. SVD
 - https://blog.csdn.net/m0_37870649/article/details/80547167
 - https://www.cnblogs.com/pinard/p/6251584.html
+
+10. LE
+![LE](codes/LE/LE.png)
+实现了之后发现这个LLE算法鲁棒性太太差了，完全没法用。对参数和数据非常非常非常敏感!!!
+- https://blog.csdn.net/hustlx/article/details/50850342#
+- https://blog.csdn.net/jwh_bupt/article/details/8945083
