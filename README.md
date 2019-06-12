@@ -32,7 +32,7 @@
 - http://bindog.github.io/blog/2018/07/31/t-sne-tips/
 ![TSNE](codes/T-SNE/T-SNE.png)
 7. AutoEncoder
-
+![AutoEncoder](codes/AutoEncoder/AutoEncoder.png)
 8. FastICA
 - https://blog.csdn.net/lizhe_dashuju/article/details/50263339
 
