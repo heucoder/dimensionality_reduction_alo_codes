@@ -2,8 +2,8 @@
 
 **网上关于各种降维算法的资料参差不齐，同时大部分不提供源代码；在此通过借鉴资料实现了一些经典降维算法的Demo(python)，同时也给出了参考资料的链接。**
 
-降维算法 | 资料链接 | 展示
-- | - | -
+降维算法|资料链接|展示|
+---|---|---
 PCA | https://blog.csdn.net/u013719780/article/details/78352262 https://blog.csdn.net/u013719780/article/details/78352262 https://blog.csdn.net/weixin_40604987/article/details/79632888 |  ![PCA](codes/PCA/PCA.png)
 KPCA | https://blog.csdn.net/u013719780/article/details/78352262 https://blog.csdn.net/u013719780/article/details/78352262 https://blog.csdn.net/weixin_40604987/article/details/79632888 | ![KPCA](codes/PCA/KPCA.png)
 LDA | https://blog.csdn.net/ChenVast/article/details/79227945 https://www.cnblogs.com/pinard/p/6244265.html | ![LDA](codes/LDA/LDA.png)
