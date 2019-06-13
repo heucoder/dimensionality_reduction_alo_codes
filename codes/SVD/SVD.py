@@ -1,10 +1,20 @@
 # coding:utf-8
 
+'''
+author: heucoder
+email: 812860165@qq.com
+date: 2019.6.13
+'''
 
 import numpy as np
 from sklearn.datasets import load_iris
 
-def my_SVD(data):
+def svd(data):
+    '''
+    :param data:
+    :return: U, Sigma, VT
+    '''
+
     # mean
     N, D = data.shape
     data = data - np.mean(data, axis=0)
@@ -28,7 +38,5 @@ if __name__ == '__main__':
     iris = load_iris()
     X = iris.data
     Y = iris.target
-    U, Sigma, VT = my_SVD(X)
+    U, Sigma, VT = svd(X)
 
-    # 2D
-    data_2d = np.dot(np.dot(U[:,:2], Sigma[:2, :2]), VT[:2,:])

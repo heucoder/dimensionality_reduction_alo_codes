@@ -5,21 +5,30 @@ import matplotlib.pyplot as plt
 from sklearn.manifold import LocallyLinearEmbedding
 from mpl_toolkits.mplot3d import Axes3D
 
+'''
+author: heucoder
+email: 812860165@qq.com
+date: 2019.6.13
+'''
+
 def cal_pairwise_dist(x):
-    # x (n_samples, n_features)
-    # '''计算pairwise 距离, x是matrix
-    # (a-b)^2 = a^2 + b^2 - 2*a*b
-    # '''
+    '''计算pairwise 距离, x是matrix
+    (a-b)^2 = a^2 + b^2 - 2*a*b
+    '''
     sum_x = np.sum(np.square(x), 1)
-    # print -2 * np.dot(x, x.T)
-    # print np.add(-2 * np.dot(x, x.T), sum_x).T
     dist = np.add(np.add(-2 * np.dot(x, x.T), sum_x).T, sum_x)
-    #返回任意两个点之间距离
-    return dist**0.5
+    #返回任意两个点之间距离的平方
+    return dist
 
 def get_n_neighbors(data, n_neighbors = 10):
-    # dist (n_samples, n_samples)
-    dist = cal_pairwise_dist(data)
+    '''
+
+    :param data: (n_samples, n_features)
+    :param n_neighbors: n nearest neighbors
+    :return: neighbors indexs
+    '''
+
+    dist = cal_pairwise_dist(data)**0.5
     n = dist.shape[0]
     N = np.zeros((n, n_neighbors))
 
@@ -29,7 +38,14 @@ def get_n_neighbors(data, n_neighbors = 10):
 
     return N.astype(np.int32)
 
-def MY_LLE(data, n_dims = 2, n_neighbors = 10):
+def lle(data, n_dims = 2, n_neighbors = 10):
+    '''
+
+    :param data:(n_samples, n_features)
+    :param n_dims: target n_dims
+    :param n_neighbors: n nearest neighbors
+    :return: (n_samples, n_dims)
+    '''
     N = get_n_neighbors(data, n_neighbors)
     n, D = data.shape
 
@@ -54,11 +70,6 @@ def MY_LLE(data, n_dims = 2, n_neighbors = 10):
         wi = (np.dot(Si_inv, I))/(np.dot(np.dot(I.T, Si_inv), I)[0,0])
         W[:, i] = wi[:,0]
 
-    # calculate M
-    # sparse W = W_y
-    # Y (n_dims, N)
-
-
     W_y = np.zeros((n, n))
     for i in range(n):
         index = N[i]
@@ -79,7 +90,7 @@ if __name__ == '__main__':
                            noise = 0.1,
                            random_state = 42)
 
-    data_1 = MY_LLE(X, n_neighbors = 30)
+    data_1 =lle(X, n_neighbors = 30)
 
     data_2 = LocallyLinearEmbedding(n_components=2, n_neighbors=30).fit_transform(X)
 

@@ -5,8 +5,13 @@ from sklearn.datasets import load_iris
 from sklearn.decomposition import KernelPCA
 import numpy as np
 import matplotlib.pyplot as plt
-
 from scipy.spatial.distance import pdist, squareform
+
+'''
+author: heucoder
+email: 812860165@qq.com
+date: 2019.6.13
+'''
 
 
 def sigmoid(x, coef = 0.25):
@@ -22,10 +27,14 @@ def rbf(x, gamma = 15):
     mat_sq_dists = squareform(sq_dists)
     return np.exp(-gamma*mat_sq_dists)
 
-# data (n_samples, n_features)
-# n_components target dim
-# kernel kernel fun
-def my_KPCA(data, n_components=2, kernel = rbf):
+def kpca(data, n_dims=2, kernel = rbf):
+    '''
+
+    :param data: (n_samples, n_features)
+    :param n_dims: target n_dims
+    :param kernel: kernel functions
+    :return: (n_samples, n_dims)
+    '''
 
     K = kernel(data)
     #
@@ -35,11 +44,11 @@ def my_KPCA(data, n_components=2, kernel = rbf):
     #
     eig_values, eig_vector = np.linalg.eig(K)
     idx = eig_values.argsort()[::-1]
-    eigval = eig_values[idx][:n_components]
-    eigvector = eig_vector[:, idx][:, :n_components]
+    eigval = eig_values[idx][:n_dims]
+    eigvector = eig_vector[:, idx][:, :n_dims]
     print(eigval)
     eigval = eigval**(1/2)
-    vi = eigvector/eigval.reshape(-1,n_components)
+    vi = eigvector/eigval.reshape(-1,n_dims)
     data_n = np.dot(K, vi)
     return data_n
 
@@ -47,13 +56,11 @@ def my_KPCA(data, n_components=2, kernel = rbf):
 if __name__ == "__main__":
     data = load_iris().data
     Y = load_iris().target
-    data_1 = my_KPCA(data, kernel=rbf)
+    data_1 = kpca(data, kernel=rbf)
 
-    print("------------")
 
-    kpca = KernelPCA(n_components=2, kernel="rbf", gamma=15)
-    data_2 = kpca.fit_transform(data)
-    print(kpca.lambdas_)
+    sklearn_kpca = KernelPCA(n_components=2, kernel="rbf", gamma=15)
+    data_2 = sklearn_kpca.fit_transform(data)
 
     plt.figure(figsize=(8,4))
     plt.subplot(121)

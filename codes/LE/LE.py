@@ -1,9 +1,14 @@
 # coding:utf-8
 
 import numpy as np
-from sklearn.datasets import make_s_curve, make_swiss_roll
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+
+'''
+author: heucoder
+email: 812860165@qq.com
+date: 2019.6.13
+'''
 
 def make_swiss_roll(n_samples=100, noise=0.0, random_state=None):
     #Generate a swiss roll dataset.
@@ -18,23 +23,24 @@ def make_swiss_roll(n_samples=100, noise=0.0, random_state=None):
     return X, t
 
 def rbf(dist, t = 1.0):
+    '''
+    rbf kernel function
+    '''
     return np.exp(-(dist/t))
 
 def cal_pairwise_dist(x):
-    # x (n_samples, n_features)
-    # '''计算pairwise 距离, x是matrix
-    # (a-b)^2 = a^2 + b^2 - 2*a*b
-    # '''
+
+    '''计算pairwise 距离, x是matrix
+    (a-b)^2 = a^2 + b^2 - 2*a*b
+    '''
     sum_x = np.sum(np.square(x), 1)
-    # print -2 * np.dot(x, x.T)
-    # print np.add(-2 * np.dot(x, x.T), sum_x).T
     dist = np.add(np.add(-2 * np.dot(x, x.T), sum_x).T, sum_x)
-    #返回任意两个点之间距离
-    return dist**0.5
+    #返回任意两个点之间距离的平方
+    return dist
 
 def cal_rbf_dist(data, n_neighbors = 10, t = 1):
-    # dist (n_samples, n_samples)
-    dist = cal_pairwise_dist(data)**2
+
+    dist = cal_pairwise_dist(data)
     n = dist.shape[0]
     rbf_dist = rbf(dist, t)
 
@@ -46,7 +52,7 @@ def cal_rbf_dist(data, n_neighbors = 10, t = 1):
 
     return W
 
-def MY_LE(data,
+def le(data,
           n_dims = 2,
           n_neighbors = 10, t = 1.0):
 
@@ -63,28 +69,29 @@ def MY_LE(data,
     sort_index_ = np.argsort(eig_val)
 
     eig_val = eig_val[sort_index_]
+
+    # until eig_val not equal 0
     j = 0
     for v in eig_val:
         j+=1
         if v > 1e-5:
             break
-    print("j", j)
 
     sort_index_ = sort_index_[j:j+n_dims]
-    print(sort_index_)
+    # print(sort_index_)
     eig_val_picked = eig_val[sort_index_]
     eig_vec_picked = eig_vec[:, sort_index_]
-    print(eig_val_picked)
-    print(np.dot(np.dot(eig_vec_picked.T, D), eig_vec_picked))
+    # print(eig_val_picked)
+
+    # D not equal I ???
+    # print(np.dot(np.dot(eig_vec_picked.T, D), eig_vec_picked))
 
     X_ndim = eig_vec_picked
     return X_ndim
 
 if __name__ == '__main__':
     X, Y = make_swiss_roll(n_samples = 2000)
-    # X[:, 1] = X[:, 1]*10
-    X_ndim = MY_LE(X, n_neighbors = 20, t = 10)
-    print(X_ndim[:,0].shape)
+    X_ndim = le(X, n_neighbors = 20, t = 10)
 
     fig = plt.figure(figsize=(12,6))
     ax1 = fig.add_subplot(121, projection='3d')

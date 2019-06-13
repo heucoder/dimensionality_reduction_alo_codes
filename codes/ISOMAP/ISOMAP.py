@@ -21,15 +21,13 @@ def floyd(D,n_neighbors=15):
     return D1
 
 def cal_pairwise_dist(x):
-    # '''计算pairwise 距离, x是matrix
-    # (a-b)^2 = a^2 + b^2 - 2*a*b
-    # '''
+    '''计算pairwise 距离, x是matrix
+    (a-b)^2 = a^2 + b^2 - 2*a*b
+    '''
     sum_x = np.sum(np.square(x), 1)
-    # print -2 * np.dot(x, x.T)
-    # print np.add(-2 * np.dot(x, x.T), sum_x).T
     dist = np.add(np.add(-2 * np.dot(x, x.T), sum_x).T, sum_x)
     #返回任意两个点之间距离的平方
-    return dist**0.5
+    return dist
 
 def my_mds(dist, n_dims):
     # dist (n_samples, n_samples)
@@ -49,8 +47,8 @@ def my_mds(dist, n_dims):
     return picked_eig_vector*picked_eig_val**(0.5)
 
 def my_Isomap(data,n=2,n_neighbors=30):
-    D = cal_pairwise_dist(data)
-    D_floyd=floyd(D)
+    D = cal_pairwise_dist(data)**0.5
+    D_floyd=floyd(D, n_neighbors)
     data_n = my_mds(D_floyd, n_dims=n)
     return data_n
 

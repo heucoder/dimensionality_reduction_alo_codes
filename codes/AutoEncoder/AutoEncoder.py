@@ -5,7 +5,18 @@ from sklearn.datasets import load_iris, load_digits
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
+'''
+author: heucoder
+email: 812860165@qq.com
+date: 2019.6.13
+'''
+
 def reset_graph(seed=42):
+    '''
+    reset deafault graph
+    :param seed: random seed
+    :return:
+    '''
     tf.reset_default_graph()
     tf.set_random_seed(seed)
     np.random.seed(seed)
@@ -18,9 +29,19 @@ def AutoEncoder(data,
                 learning_rate = 0.01,
                 optimizer_type = 'adam',
                 verbose = 1):
+    '''
 
-    # if not isinstance(hidden_layers, list) or hidden_layers == []:
-    #     raise ("hidden layer input error")
+    :param data: (n_samples, n_features)
+    :param hidden_layers: list hidden layers units num
+    :param noise: normal noise
+    :param drop_rate:
+    :param n_epochs:
+    :param learning_rate:
+    :param optimizer_type:
+    :param verbose:
+    :return:
+    '''
+
 
     reset_graph()
     n_inputs = data.shape[1]
@@ -43,8 +64,6 @@ def AutoEncoder(data,
 
     outputs = tf.layers.dense(hiddens[-1], n_outputs)
     hiddens.append(outputs)
-    # hidden = tf.layers.dense(X_drop, hidden_layers)
-    # outputs = tf.layers.dense(hidden, n_outputs)
 
     reconstruction_loss = tf.reduce_mean(tf.square(outputs - X))
 
@@ -59,7 +78,6 @@ def AutoEncoder(data,
 
     # coding layer
     codings = hiddens[len(hiddens)//2]
-    # codings = hidden
 
     with tf.Session() as sess:
         init.run()

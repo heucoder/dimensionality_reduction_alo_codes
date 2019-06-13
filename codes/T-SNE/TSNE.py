@@ -1,4 +1,4 @@
-#coding:utf-8
+# coding:utf-8
 
 import numpy as np
 from sklearn.datasets import load_digits
@@ -6,21 +6,19 @@ import matplotlib.pyplot as plt
 import time
 
 def cal_pairwise_dist(x):
-    # '''计算pairwise 距离, x是matrix
-    # (a-b)^2 = a^2 + b^2 - 2*a*b
-    # '''
+    '''计算pairwise 距离, x是matrix
+    (a-b)^2 = a^2 + b^2 - 2*a*b
+    '''
     sum_x = np.sum(np.square(x), 1)
-    # print -2 * np.dot(x, x.T)
-    # print np.add(-2 * np.dot(x, x.T), sum_x).T
     dist = np.add(np.add(-2 * np.dot(x, x.T), sum_x).T, sum_x)
     #返回任意两个点之间距离的平方
     return dist
 
 def cal_perplexity(dist, idx=0, beta=1.0):
-    # '''计算perplexity, D是距离向量，
-    # idx指dist中自己与自己距离的位置，beta是高斯分布参数
-    # 这里的perp仅计算了熵，方便计算
-    # '''
+    '''计算perplexity, D是距离向量，
+    idx指dist中自己与自己距离的位置，beta是高斯分布参数
+    这里的perp仅计算了熵，方便计算
+    '''
     prob = np.exp(-dist * beta)
     # 设置自身prob为0
     prob[idx] = 0
@@ -34,10 +32,9 @@ def cal_perplexity(dist, idx=0, beta=1.0):
 
     return perp, prob
 
-
 def seach_prob(x, tol=1e-5, perplexity=30.0):
-    # '''二分搜索寻找beta,并计算pairwise的prob
-    # '''
+    '''二分搜索寻找beta,并计算pairwise的prob
+    '''
 
     # 初始化参数
     print("Computing pairwise distances...")
@@ -97,18 +94,18 @@ def tsne(x, no_dims=2, perplexity=30.0, max_iter=1000):
 
     (n, d) = x.shape
 
-    #动量
+    # 动量
     initial_momentum = 0.5
     final_momentum = 0.8
     eta = 500
     min_gain = 0.01
-    #随机初始化Y
+    # 随机初始化Y
     y = np.random.randn(n, no_dims)
-    #dy梯度
+    # dy梯度
     dy = np.zeros((n, no_dims))
-    #iy是什么
+    # iy是什么
     iy = np.zeros((n, no_dims))
-    #gains是什么
+
     gains = np.ones((n, no_dims))
 
     # 对称化
@@ -116,7 +113,7 @@ def tsne(x, no_dims=2, perplexity=30.0, max_iter=1000):
     P = P + np.transpose(P)
     P = P / np.sum(P)   #pij
     # early exaggeration
-    #pi\j，提前夸大
+    # pi\j，提前夸大
     print ("T-SNE DURING:%s" % time.clock())
     P = P * 4
     P = np.maximum(P, 1e-12)
@@ -131,10 +128,10 @@ def tsne(x, no_dims=2, perplexity=30.0, max_iter=1000):
         Q = np.maximum(Q, 1e-12)    #X与Y逐位比较取其大者
 
         # Compute gradient
-        #np.tile(A,N) 重复数组AN次 [1],5 [1,1,1,1,1]
-        #pij-qij
+        # np.tile(A,N) 重复数组AN次 [1],5 [1,1,1,1,1]
+        # pij-qij
         PQ = P - Q
-        #梯度dy
+        # 梯度dy
         for i in range(n):
             dy[i,:] = np.sum(np.tile(PQ[:,i] * num[:,i], (no_dims, 1)).T * (y[i,:] - y), 0)
 
@@ -146,7 +143,7 @@ def tsne(x, no_dims=2, perplexity=30.0, max_iter=1000):
 
         gains = (gains + 0.2) * ((dy > 0) != (iy > 0)) + (gains * 0.8) * ((dy > 0) == (iy > 0))
         gains[gains < min_gain] = min_gain
-        #迭代
+        # 迭代
         iy = momentum * iy - eta * (gains * dy)
         y = y + iy
         y = y - np.tile(np.mean(y, 0), (n, 1))

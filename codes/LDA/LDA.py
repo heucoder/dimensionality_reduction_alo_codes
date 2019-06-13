@@ -4,10 +4,20 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.datasets import load_iris
 import matplotlib.pyplot as plt
 
+'''
+author: heucoder
+email: 812860165@qq.com
+date: 2019.6.13
+'''
+
+
 def lda(data, target, n_dim):
-    # data (n_samples, n_features) dtype: numpy.array
-    # target (n_samples, 1) dtype: numpy.array
-    # n_dim: target dim
+    '''
+    :param data: (n_samples, n_features)
+    :param target: data class
+    :param n_dim: target dimension
+    :return: (n_samples, n_dims)
+    '''
 
     clusters = np.unique(target)
 
