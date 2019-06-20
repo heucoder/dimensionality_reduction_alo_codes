@@ -70,6 +70,10 @@ def lle(data, n_dims = 2, n_neighbors = 10):
         wi = (np.dot(Si_inv, I))/(np.dot(np.dot(I.T, Si_inv), I)[0,0])
         W[:, i] = wi[:,0]
 
+    print("Xi.shape", Xi.shape)
+    print("Ni.shape", Ni.shape)
+    print("Si.shape", Si.shape)
+
     W_y = np.zeros((n, n))
     for i in range(n):
         index = N[i]

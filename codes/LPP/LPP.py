@@ -2,8 +2,9 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.datasets import load_digits
+from sklearn.decomposition import PCA
 from mpl_toolkits.mplot3d import Axes3D
+from sklearn.datasets import load_digits, load_iris
 
 '''
 author: heucoder
@@ -47,15 +48,15 @@ def cal_rbf_dist(data, n_neighbors = 10, t = 1):
 
     W = np.zeros((n, n))
     for i in range(n):
-        index_ = np.argsort(dist[i])[1:1+n_neighbors]
+        index_ = np.argsort(dist[i])[1:1 + n_neighbors]
         W[i, index_] = rbf_dist[i, index_]
         W[index_, i] = rbf_dist[index_, i]
 
     return W
 
-def le(data,
-          n_dims = 2,
-          n_neighbors = 5, t = 1.0):
+def lpp(data,
+        n_dims = 2,
+        n_neighbors = 30, t = 1.0):
     '''
 
     :param data: (n_samples, n_features)
@@ -67,17 +68,19 @@ def le(data,
     N = data.shape[0]
     W = cal_rbf_dist(data, n_neighbors, t)
     D = np.zeros_like(W)
+
     for i in range(N):
         D[i,i] = np.sum(W[i])
 
-    D_inv = np.linalg.inv(D)
     L = D - W
-    eig_val, eig_vec = np.linalg.eig(np.dot(D_inv, L))
+    XDXT = np.dot(np.dot(data.T, D), data)
+    XLXT = np.dot(np.dot(data.T, L), data)
 
-    sort_index_ = np.argsort(eig_val)
+    eig_val, eig_vec = np.linalg.eig(np.dot(np.linalg.pinv(XDXT), XLXT))
 
+    sort_index_ = np.argsort(np.abs(eig_val))
     eig_val = eig_val[sort_index_]
-    print("eig_val[:10]: ", eig_val[:10])
+    print("eig_val[:10]", eig_val[:10])
 
     j = 0
     while eig_val[j] < 1e-6:
@@ -86,37 +89,35 @@ def le(data,
     print("j: ", j)
 
     sort_index_ = sort_index_[j:j+n_dims]
+    # print(sort_index_)
     eig_val_picked = eig_val[j:j+n_dims]
     print(eig_val_picked)
     eig_vec_picked = eig_vec[:, sort_index_]
 
-    # print("L: ")
-    # print(np.dot(np.dot(eig_vec_picked.T, L), eig_vec_picked))
-    # print("D: ")
-    # D not equal I ???
-    print(np.dot(np.dot(eig_vec_picked.T, D), eig_vec_picked))
+    data_ndim = np.dot(data, eig_vec_picked)
 
-    X_ndim = eig_vec_picked
-    return X_ndim
+    return data_ndim
 
 if __name__ == '__main__':
-    # X, Y = make_swiss_roll(n_samples = 2000)
-    # X_ndim = le(X, n_neighbors = 5, t = 20)
-    #
-    # fig = plt.figure(figsize=(12,6))
-    # ax1 = fig.add_subplot(121, projection='3d')
-    # ax1.scatter(X[:, 0], X[:, 1], X[:, 2], c = Y)
-    #
-    # ax2 = fig.add_subplot(122)
-    # ax2.scatter(X_ndim[:, 0], X_ndim[:, 1], c = Y)
-    # plt.show()
-
     X = load_digits().data
     y = load_digits().target
+    # X, y = make_swiss_roll(n_samples = 1000)
 
     dist = cal_pairwise_dist(X)
     max_dist = np.max(dist)
     print("max_dist", max_dist)
-    X_ndim = le(X, n_neighbors = 20, t = max_dist*0.1)
-    plt.scatter(X_ndim[:, 0], X_ndim[:, 1], c = y)
+
+    data_2d = lpp(X, n_neighbors = 5, t = 0.01*max_dist)
+    data_2 = PCA(n_components=2).fit_transform(X)
+
+
+    plt.figure(figsize=(12,6))
+    plt.subplot(121)
+    plt.title("LPP")
+    plt.scatter(data_2d[:, 0], data_2d[:, 1], c = y)
+
+    plt.subplot(122)
+    plt.title("PCA")
+    plt.scatter(data_2[:, 0], data_2[:, 1], c = y)
     plt.show()
+
