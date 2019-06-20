@@ -16,6 +16,8 @@ FastICA | https://blog.csdn.net/lizhe_dashuju/article/details/50263339
 SVD | https://blog.csdn.net/m0_37870649/article/details/80547167 https://www.cnblogs.com/pinard/p/6251584.html | 
 LE | https://blog.csdn.net/hustlx/article/details/50850342# https://blog.csdn.net/jwh_bupt/article/details/8945083 | ![LE](codes/LE/LE_1.png)
 LPP | https://blog.csdn.net/qq_39187538/article/details/90402961 https://blog.csdn.net/xiaohen123456/article/details/82288222 | ![LPP](codes/LPP/LPP.png)
+
+
 `环境: python3.6 ubuntu18.04(windows10)`
 `需要的库: numpy sklearn tensorflow matplotlib`
 - 每一个代码都可以单独运行，但是只是作为一个demo，仅供学习使用
