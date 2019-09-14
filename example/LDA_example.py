@@ -12,7 +12,7 @@ if __name__ == '__main__':
     iris = load_iris()
     X = iris.data
     Y = iris.target
-    data_1 = LDA.LDA(X, Y, 2)
+    data_1 = LDA.LDA(X, 2, Y)
 
     data_2 = LinearDiscriminantAnalysis(n_components=2).fit_transform(X, Y)
 

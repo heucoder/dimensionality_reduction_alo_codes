@@ -13,6 +13,6 @@ if __name__ == "__main__":
     X = digits.data
     Y = digits.target
 
-    data_2d = TSNE.TSNE(X, 2)
+    data_2d = TSNE.TSNE(X, 2, 30, 100)
     plt.scatter(data_2d[:, 0], data_2d[:, 1], c = Y)
     plt.show()
