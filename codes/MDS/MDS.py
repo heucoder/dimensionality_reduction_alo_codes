@@ -30,6 +30,7 @@ def my_mds(data, n_dims):
 
     n, d = data.shape
     dist = cal_pairwise_dist(data)
+    dist[dist < 0 ] = 0
     T1 = np.ones((n,n))*np.sum(dist)/n**2
     T2 = np.sum(dist, axis = 1, keepdims=True)/n
     T3 = np.sum(dist, axis = 0, keepdims=True)/n

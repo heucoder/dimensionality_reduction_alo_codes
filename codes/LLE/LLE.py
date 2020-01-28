@@ -11,6 +11,18 @@ email: 812860165@qq.com
 date: 2019.6.13
 '''
 
+def make_swiss_roll(n_samples=100, noise=0.0, random_state=None):
+    #Generate a swiss roll dataset.
+    t = 1.5 * np.pi * (1 + 2 * np.random.rand(1, n_samples))
+    x = t * np.cos(t)
+    y = 83 * np.random.rand(1, n_samples)
+    z = t * np.sin(t)
+    X = np.concatenate((x, y, z))
+    X += noise * np.random.randn(3, n_samples)
+    X = X.T
+    t = np.squeeze(t)
+    return X, t
+
 def cal_pairwise_dist(x):
     '''计算pairwise 距离, x是matrix
     (a-b)^2 = a^2 + b^2 - 2*a*b
@@ -28,7 +40,9 @@ def get_n_neighbors(data, n_neighbors = 10):
     :return: neighbors indexs
     '''
 
-    dist = cal_pairwise_dist(data)**0.5
+    dist = cal_pairwise_dist(data)
+    dist[dist < 0] = 0
+    dist = dist**0.5
     n = dist.shape[0]
     N = np.zeros((n, n_neighbors))
 
@@ -90,13 +104,15 @@ def lle(data, n_dims = 2, n_neighbors = 10):
     return Y
 
 if __name__ == '__main__':
-    X, Y = make_s_curve(n_samples = 500,
-                           noise = 0.1,
-                           random_state = 42)
-
+    # X, Y = make_s_curve(n_samples = 500,
+    #                        noise = 0.1,
+    #                        random_state = 42)
+    X, Y = make_swiss_roll(n_samples = 500, noise=0.1, random_state=42)
+    
     data_1 =lle(X, n_neighbors = 30)
+    print(data_1.shape)
 
-    data_2 = LocallyLinearEmbedding(n_components=2, n_neighbors=30).fit_transform(X)
+    data_2 = LocallyLinearEmbedding(n_components=2, n_neighbors = 30).fit_transform(X)
 
 
     plt.figure(figsize=(8,4))

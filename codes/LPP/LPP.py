@@ -43,6 +43,7 @@ def cal_pairwise_dist(x):
 def cal_rbf_dist(data, n_neighbors = 10, t = 1):
 
     dist = cal_pairwise_dist(data)
+    dist[dist < 0] = 0
     n = dist.shape[0]
     rbf_dist = rbf(dist, t)
 

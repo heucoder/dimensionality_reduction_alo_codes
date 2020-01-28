@@ -47,7 +47,9 @@ def my_mds(dist, n_dims):
     return picked_eig_vector*picked_eig_val**(0.5)
 
 def my_Isomap(data,n=2,n_neighbors=30):
-    D = cal_pairwise_dist(data)**0.5
+    D = cal_pairwise_dist(data)
+    D[D < 0] = 0
+    D = D**0.5
     D_floyd=floyd(D, n_neighbors)
     data_n = my_mds(D_floyd, n_dims=n)
     return data_n
@@ -79,5 +81,5 @@ if __name__ == '__main__':
     plt.subplot(122)
     plt.title("sklearn_Isomap")
     plt.scatter(data_2[:, 0], data_2[:, 1], c = Y)
-    plt.savefig("Isomap.png")
+    plt.savefig("Isomap1.png")
     plt.show()

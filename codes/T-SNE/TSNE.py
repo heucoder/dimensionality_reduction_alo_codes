@@ -40,6 +40,7 @@ def seach_prob(x, tol=1e-5, perplexity=30.0):
     print("Computing pairwise distances...")
     (n, d) = x.shape
     dist = cal_pairwise_dist(x)
+    dist[dist < 0] = 0
     pair_prob = np.zeros((n, n))
     beta = np.ones((n, 1))
     # 取log，方便后续计算

@@ -42,6 +42,7 @@ def cal_pairwise_dist(x):
 def cal_rbf_dist(data, n_neighbors = 10, t = 1):
 
     dist = cal_pairwise_dist(data)
+    dist[dist < 0] = 0
     n = dist.shape[0]
     rbf_dist = rbf(dist, t)
 
@@ -119,4 +120,5 @@ if __name__ == '__main__':
     print("max_dist", max_dist)
     X_ndim = le(X, n_neighbors = 20, t = max_dist*0.1)
     plt.scatter(X_ndim[:, 0], X_ndim[:, 1], c = y)
+    plt.savefig("LE2.png")
     plt.show()
